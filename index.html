@@ -34,8 +34,17 @@
           }
         }, [])
 
+        const revisedMessages = messages.map(mess => {
+            if (mess.charAt(0) !== '>') {
+                const splitMess = mess.split(':');
+                const userNum = splitMess[0].split('-');
+                return `User ${userNum[1]}: ${splitMess[1]}`;
+            }
+            return mess;
+        });
+
         return html`
-          ${messages.map(message => html`
+          ${revisedMessages.map(message => html`
               <div>${message}</div>
           `)}
 

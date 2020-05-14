@@ -3,7 +3,7 @@ import {
   isWebSocketCloseEvent,
 } from "https://deno.land/std/ws/mod.ts";
 import { v4 } from "https://deno.land/std/uuid/mod.ts";
-import { camelize } from './camelize.ts';
+import { camelize } from "./camelize.ts";
 
 const users = new Map<string, WebSocket>();
 
@@ -19,11 +19,12 @@ export async function chat(ws: WebSocket): Promise<void> {
 
   // Register user connection
   users.set(userId, ws);
-  broadcast(`> User with the id ${userId} is connected`);
+  const userNum = userId.split("-");
+  broadcast(`> User with the id ${userNum[1]} is connected`);
 
   // Wait for new messages
   for await (const event of ws) {
-    const message = camelize(typeof event === 'string' ? event : '');
+    const message = camelize(typeof event === "string" ? event : "");
 
     broadcast(message, userId);
 
